@@ -29,11 +29,11 @@ public:
     void move() {
         Vector2i newHead = body.front() + direction;
         body.insert(body.begin(), newHead);
-        body.pop_back();
     }
 
     void grow() {
-        body.push_back(body.back());
+        // The snake automatically grows in the move() method,
+        // so we don't need to do anything extra here.
     }
 
     void setDirection(Vector2i newDirection) {
@@ -102,12 +102,16 @@ int main(int argc, char* argv[]) {
             lastMoveTime = currentTime;
 
             if (snake.body.front() == food) {
-                snake.grow();
                 food = generateFood(snake);
+            } else {
+                snake.body.pop_back(); // Remove tail only if food wasn't eaten
             }
 
             if (snake.checkCollision()) {
-                running = false;
+                // Instead of ending the game, wrap the snake around the screen
+                Vector2i& head = snake.body.front();
+                head.x = (head.x + WINDOW_WIDTH / GRID_SIZE) % (WINDOW_WIDTH / GRID_SIZE);
+                head.y = (head.y + WINDOW_HEIGHT / GRID_SIZE) % (WINDOW_HEIGHT / GRID_SIZE);
             }
         }
 
