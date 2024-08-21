@@ -61,7 +61,7 @@ sf::Vector2i generateFood(const Snake& snake) {
 int main() {
     srand(static_cast<unsigned int>(time(nullptr)));
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Snake Game");
-    window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
 
     Snake snake;
     sf::Vector2i food = generateFood(snake);
