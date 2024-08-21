@@ -44,10 +44,12 @@ public:
 
     bool checkCollision() {
         Vector2i head = body.front();
+        // Check if snake hits the screen edges
         if (head.x < 0 || head.x >= WINDOW_WIDTH / GRID_SIZE ||
             head.y < 0 || head.y >= WINDOW_HEIGHT / GRID_SIZE) {
             return true;
         }
+        // Check if snake touches itself
         for (size_t i = 1; i < body.size(); ++i) {
             if (body[i] == head) {
                 return true;
@@ -108,10 +110,9 @@ int main(int argc, char* argv[]) {
             }
 
             if (snake.checkCollision()) {
-                // Instead of ending the game, wrap the snake around the screen
-                Vector2i& head = snake.body.front();
-                head.x = (head.x + WINDOW_WIDTH / GRID_SIZE) % (WINDOW_WIDTH / GRID_SIZE);
-                head.y = (head.y + WINDOW_HEIGHT / GRID_SIZE) % (WINDOW_HEIGHT / GRID_SIZE);
+                // End the game
+                running = false;
+                break;
             }
         }
 
